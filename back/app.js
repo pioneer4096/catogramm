@@ -27,7 +27,7 @@ app.get('/profile/setInfo', (req, res) => {
     res.send('Set user personal info path')
 })
 
-app.get('/content', (req, res) => {
+app.get('/content/get', (req, res) => {
     res.send('Content path')
 })
 
@@ -35,8 +35,12 @@ app.get('/content/create', (req, res) => {
     res.send('Content create path')
 })
 
-app.get('/content/like', (req, res) => {
+app.get('/content/like/:documentId', (req, res) => {
     res.send('Content like path')
+})
+
+app.get('/friends/add/:userId', (req, res) => {
+    res.send('Add friends path')
 })
 
 app.listen(port, () => {
