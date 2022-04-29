@@ -1,4 +1,8 @@
 class ContentConnector {
+    constructor(db) {
+        this.db = db
+    }
+
     get() {
         return []
     }

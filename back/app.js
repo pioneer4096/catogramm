@@ -1,15 +1,19 @@
 
 const express = require('express')
-const ProfilesConnector = require('./utils/profiles.connector.js')
-const ContentConnector = require('./utils/content.connector.js')
-const FriendsConnector = require('./utils/friends.connector.js')
+const AuthConnector = require('./utils/connectors/auth.connector.js')
+const ProfilesConnector = require('./utils/connectors/profiles.connector.js')
+const ContentConnector = require('./utils/connectors/content.connector.js')
+const FriendsConnector = require('./utils/connectors/friends.connector.js')
+const DataBase = require('./utils/db/DataBase.js')
 
 const app = express()
 const port = 3000
 
-const profilesConnector = new ProfilesConnector()
-const contentConnector = new ContentConnector()
-const friendsConnector = new FriendsConnector()
+const dataBase = new DataBase()
+const authConnector = new AuthConnector(dataBase)
+const profilesConnector = new ProfilesConnector(dataBase)
+const contentConnector = new ContentConnector(dataBase)
+const friendsConnector = new FriendsConnector(dataBase)
 
 const parseId = (paramId) => {
     const id = +paramId
@@ -30,7 +34,21 @@ app.get('/auth', (req, res) => {
 })
 
 app.get('/register', (req, res) => {
-    res.send('Register user path')
+    const login = req.query.login
+    const password = req.query.password
+    console.log('data ', login, password)
+
+    try {
+        const id = authConnector.register(login, password)
+        res.status(200).send({
+            message: `Created user with id = ${id}`
+        })
+    }
+    catch (e) {
+        res.status(400).send({
+            message: `CANT_REGISTER: ${e.message}`
+        })
+    }
 })
 
 app.get('/profile/get/:userId', (req, res) => {

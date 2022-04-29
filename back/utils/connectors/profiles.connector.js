@@ -1,4 +1,8 @@
 class ProfilesConnector {
+    constructor(db) {
+        this.db = db
+    }
+
     getProfile(userIdStr) {
         const userId = isNaN(+userIdStr) ? +userIdStr : null
         const hasDataIds = [1, 2, 3, 4, 5]
