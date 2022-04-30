@@ -30,13 +30,24 @@ app.get('/', (req, res) => {
 })
 
 app.get('/auth', (req, res) => {
-    res.send('Auth user path')
+    const {login, password} = req.query
+
+    try {
+        authConnector.login(login, password)
+        // TODO SET TOKEN
+        res.status(200).send({
+            message: 'Login successfully'
+        })
+    }
+    catch (e) {
+        res.status(400).send({
+            message: `CANT_AUTH: ${e.message}`
+        })
+    }
 })
 
 app.get('/register', (req, res) => {
-    const login = req.query.login
-    const password = req.query.password
-    console.log('data ', login, password)
+    const {login, password} = req.query
 
     try {
         const id = authConnector.register(login, password)

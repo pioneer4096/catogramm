@@ -12,6 +12,10 @@ class DataBase {
     register(login, password) {
         return this.users.push(login, {login, password})
     }
+
+    findAccount(login) {
+        return this.users.findByKey(login)
+    }
 }
 
 module.exports = DataBase

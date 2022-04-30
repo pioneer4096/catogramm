@@ -21,6 +21,11 @@ class AutoIncrementUniqueCollection {
             return id
         }
     }
+
+    findByKey(key) {
+        const element = this.collection.find(el => el.key === key)
+        return element || null
+    }
 }
 
 module.exports = AutoIncrementUniqueCollection
