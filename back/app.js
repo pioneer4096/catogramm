@@ -63,7 +63,16 @@ app.get('/register', (req, res) => {
 })
 
 app.get('/profile/get/:userId', (req, res) => {
-    const userId = parseId(req.params.userId)
+    let userId
+    try {
+        userId = parseId(req.params.userId)
+    }
+    catch (e) {
+        res.status(400).send({
+            message: 'Incorrect userId'
+        })
+    }
+
     const profile = profilesConnector.getProfile(userId)
 
     if(profile) {
@@ -76,6 +85,9 @@ app.get('/profile/get/:userId', (req, res) => {
     }
 })
 
+/**
+ * need auth
+ * **/
 app.get('/profile/setAvatar', (req, res) => {
     try {
         profilesConnector.setAvatar({data: ''})
@@ -88,6 +100,9 @@ app.get('/profile/setAvatar', (req, res) => {
     }
 })
 
+/**
+ * need auth
+ * **/
 app.get('/profile/setInfo', (req, res) => {
     try {
         profilesConnector.setInfo({data: ''})
@@ -113,6 +128,9 @@ app.get('/content/get/:userId', (req, res) => {
     }
 })
 
+/**
+ * need auth
+ * **/
 app.get('/content/create', (req, res) => {
     try {
         contentConnector.create(req.params.contentData)
@@ -125,6 +143,9 @@ app.get('/content/create', (req, res) => {
     }
 })
 
+/**
+ * need auth
+ * **/
 app.get('/content/like/:documentId', (req, res) => {
     try {
         contentConnector.like(req.params.documentId)
@@ -137,6 +158,9 @@ app.get('/content/like/:documentId', (req, res) => {
     }
 })
 
+/**
+ * need auth
+ * **/
 app.get('/friends/add/:userId', (req, res) => {
     try {
         const userId = parseId(req.params.userId)
