@@ -16,6 +16,10 @@ class DataBase {
     findAccount(login) {
         return this.users.findByKey(login)
     }
+
+    findAccountById(id) {
+        return this.users.findById(id)
+    }
 }
 
 module.exports = DataBase

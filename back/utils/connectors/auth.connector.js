@@ -14,7 +14,7 @@ class AuthConnector {
         const account = this.db.findAccount(login)
         if(account) {
             if(account.password === this.getPasswordHash(password)) {
-                return true
+                return account
             }
             else {
                 throw new Error('Incorrect password')
@@ -23,6 +23,14 @@ class AuthConnector {
         else {
             throw new Error('Login not found')
         }
+    }
+
+    findUserById(id) {
+        return this.db.findAccountById(id)
+    }
+
+    findUserByLogin(login) {
+        return this.db.findAccount(login)
     }
 
     getPasswordHash(password) {

@@ -5,6 +5,7 @@ const ProfilesConnector = require('./utils/connectors/profiles.connector.js')
 const ContentConnector = require('./utils/connectors/content.connector.js')
 const FriendsConnector = require('./utils/connectors/friends.connector.js')
 const DataBase = require('./utils/db/DataBase.js')
+const jwt = require('jsonwebtoken')
 
 const app = express()
 const port = 3000
@@ -14,6 +15,7 @@ const authConnector = new AuthConnector(dataBase)
 const profilesConnector = new ProfilesConnector(dataBase)
 const contentConnector = new ContentConnector(dataBase)
 const friendsConnector = new FriendsConnector(dataBase)
+const tokenKey = '2a6c-4d5e-6f7g-8k9i'
 
 const parseId = (paramId) => {
     const id = +paramId
@@ -25,6 +27,30 @@ const parseId = (paramId) => {
     }
 }
 
+
+app.use(express.json())
+app.use((req, res, next) => {
+    if (req.headers.authorization) {
+        jwt.verify(
+            req.headers.authorization.split(' ')[1],
+            tokenKey,
+            (err, payload) => {
+                if (err) next()
+                else if (payload) {
+                    const user = authConnector.findUserByLogin(payload.login)
+                    if(user) {
+                        req.user = user
+                    }
+                    next()
+                }
+            }
+        )
+    }
+
+    next()
+})
+
+
 app.get('/', (req, res) => {
     res.send('Root path')
 })
@@ -33,10 +59,11 @@ app.get('/auth', (req, res) => {
     const {login, password} = req.query
 
     try {
-        authConnector.login(login, password)
-        // TODO SET TOKEN
-        res.status(200).send({
-            message: 'Login successfully'
+        const account = authConnector.login(login, password)
+        return res.status(200).json({
+            id: account.id,
+            login: account.login,
+            token: jwt.sign({ id: account.id, login: account.login }, tokenKey),
         })
     }
     catch (e) {
@@ -132,7 +159,7 @@ app.get('/content/get/:userId', (req, res) => {
  * need auth
  * **/
 app.get('/content/create', (req, res) => {
-    try {
+    /*try {
         contentConnector.create(req.params.contentData)
         res.status(200)
     }
@@ -140,6 +167,14 @@ app.get('/content/create', (req, res) => {
         res.status(400).send({
             message: 'CANT_CREATE_CONTENT'
         })
+    }*/
+
+    console.log('req.user = ', req.user)
+    if (req.user) return res.status(200).json(req.user)
+    else {
+        return res
+            .status(401)
+            .json({ message: 'Not authorized' })
     }
 })
 
