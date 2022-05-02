@@ -56,7 +56,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/auth', (req, res) => {
-    const {login, password} = req.query
+    const {login, password} = req.body
 
     try {
         const account = authConnector.login(login, password)
