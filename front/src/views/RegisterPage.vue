@@ -12,11 +12,11 @@
           <q-card-section>
             <q-form class="q-px-sm q-pt-xl">
               <q-input
-                ref="username"
+                ref="login"
                 square
                 clearable
                 type="text"
-                v-model="username"
+                v-model="login"
                 lazy-rules
                 label="Имя пользователя"
               >
@@ -90,6 +90,8 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import axios from 'axios';
+import endpoints from '@/api/endpoints';
 
 export default defineComponent({
   name: "RegisterPage",
@@ -102,7 +104,14 @@ export default defineComponent({
   },
   methods: {
     doRegister() {
-      alert('Register action called!!!')
+        axios
+            .post(endpoints.register, {login: this.login, password: this.password})
+            .then(res => {
+                console.log('axios result = ', res)
+            })
+            .catch(e => {
+                console.log('axios error = ', e)
+            })
     }
   }
 });

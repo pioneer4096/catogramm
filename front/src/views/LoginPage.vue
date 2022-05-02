@@ -71,6 +71,7 @@
 <script>
 import { defineComponent } from "vue";
 import axios from 'axios';
+import endpoints from '@/api/endpoints.js'
 
 export default defineComponent({
   name: "LoginPage",
@@ -83,7 +84,7 @@ export default defineComponent({
   methods: {
     doLogin() {
       axios
-        .post('/auth/login', {login: this.login, password: this.password})
+        .post(endpoints.login, {login: this.login, password: this.password})
         .then(res => {
           console.log('axios result = ', res)
         })

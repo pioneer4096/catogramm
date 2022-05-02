@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
     res.send('Root path')
 })
 
-app.get('/auth', (req, res) => {
+app.post('/auth', (req, res) => {
     const {login, password} = req.query
 
     try {
@@ -73,8 +73,8 @@ app.get('/auth', (req, res) => {
     }
 })
 
-app.get('/register', (req, res) => {
-    const {login, password} = req.query
+app.post('/register', (req, res) => {
+    const {login, password} = req.body
 
     try {
         const id = authConnector.register(login, password)
