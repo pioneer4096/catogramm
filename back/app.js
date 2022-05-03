@@ -30,6 +30,7 @@ const parseId = (paramId) => {
 
 app.use(express.json())
 app.use((req, res, next) => {
+    console.log('req.headers = ', req.headers)
     if (req.headers.authorization) {
         jwt.verify(
             req.headers.authorization.split(' ')[1],
@@ -61,8 +62,10 @@ app.post('/auth', (req, res) => {
     try {
         const account = authConnector.login(login, password)
         return res.status(200).json({
-            id: account.id,
-            login: account.login,
+            user: {
+                id: account.id,
+                login: account.login,
+            },
             token: jwt.sign({ id: account.id, login: account.login }, tokenKey),
         })
     }
@@ -108,6 +111,19 @@ app.get('/profile/get/:userId', (req, res) => {
     else {
         res.status(404).send({
             message: 'User not found'
+        })
+    }
+})
+
+app.get('/profile/self', (req, res) => {
+    if(req.user) {
+        res.json({
+            user: req.user
+        })
+    }
+    else {
+        res.status(401).send({
+            message: 'Not authorized yet'
         })
     }
 })

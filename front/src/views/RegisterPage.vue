@@ -1,7 +1,17 @@
 <template>
   <q-page
     class="window-height window-width row justify-center items-center"
-    style="background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D)"
+    style="
+      background: linear-gradient(
+        45deg,
+        #405de6,
+        #5851db,
+        #833ab4,
+        #c13584,
+        #e1306c,
+        #fd1d1d
+      );
+    "
   >
     <div class="column q-pa-lg">
       <div class="row">
@@ -38,7 +48,7 @@
                   <q-icon name="lock" />
                 </template>
                 <template v-slot:append>
-<!--                  <q-icon
+                  <!--                  <q-icon
                     :name="visibilityIcon"
                     @click="switchVisibility"
                     class="cursor-pointer"
@@ -89,31 +99,33 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import axios from 'axios';
-import endpoints from '@/api/endpoints';
+import { defineComponent } from "vue";
+
 
 export default defineComponent({
   name: "RegisterPage",
   data() {
     return {
-      login: '',
-      password: '',
-      repeatPassword: ''
-    }
+      login: "",
+      password: "",
+      repeatPassword: "",
+    };
   },
   methods: {
-    doRegister() {
-        axios
-            .post(endpoints.register, {login: this.login, password: this.password})
-            .then(res => {
-                console.log('axios result = ', res)
-            })
-            .catch(e => {
-                console.log('axios error = ', e)
-            })
-    }
-  }
+    async doRegister() {
+      try {
+        const response = await this.$store.dispatch('login', {
+          login: this.login,
+          password: this.password,
+        })
+        this.$store.commit('setAuthData', response.data)
+        await this.$router.push('/')
+      }
+      catch (e) {
+        console.log("axios error = ", e);
+      }
+    },
+  },
 });
 </script>
 

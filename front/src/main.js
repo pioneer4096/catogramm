@@ -6,7 +6,7 @@ import { Quasar } from "quasar";
 import quasarUserOptions from "./quasar-user-options";
 
 createApp(App)
-  .use(Quasar, quasarUserOptions)
   .use(store)
+  .use(Quasar, quasarUserOptions)
   .use(router)
   .mount("#app");

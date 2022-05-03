@@ -1,7 +1,17 @@
 <template>
   <q-page
     class="window-height window-width row justify-center items-center"
-    style="background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D)"
+    style="
+      background: linear-gradient(
+        45deg,
+        #405de6,
+        #5851db,
+        #833ab4,
+        #c13584,
+        #e1306c,
+        #fd1d1d
+      );
+    "
   >
     <div class="column q-pa-lg">
       <div class="row">
@@ -37,7 +47,7 @@
                 <template v-slot:prepend>
                   <q-icon name="lock" />
                 </template>
-<!--                <template v-slot:append>
+                <!--                <template v-slot:append>
                   <q-icon
                     :name="visibilityIcon"
                     @click="switchVisibility"
@@ -70,28 +80,28 @@
 
 <script>
 import { defineComponent } from "vue";
-import axios from 'axios';
-import endpoints from '@/api/endpoints.js'
 
 export default defineComponent({
   name: "LoginPage",
   data() {
     return {
       login: '',
-      password: ''
-    }
+      password: '',
+    };
   },
   methods: {
-    doLogin() {
-      axios
-        .post(endpoints.login, {login: this.login, password: this.password})
-        .then(res => {
-          console.log('axios result = ', res)
+    async doLogin() {
+      try {
+        await this.$store.dispatch('login', {
+          login: this.login,
+          password: this.password,
         })
-        .catch(e => {
-          console.log('axios error = ', e)
-        })
-    }
+
+        await this.$router.push('/')
+      } catch (e) {
+        console.log("axios error = ", e);
+      }
+    },
   }
 });
 </script>
