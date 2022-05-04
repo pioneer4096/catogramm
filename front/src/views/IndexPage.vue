@@ -18,14 +18,14 @@
 
 <script>
 import { defineComponent } from "vue";
-import axios from 'axios'
+import http from '@/api/HttpClient.js'
 
 export default defineComponent({
   name: "IndexPage",
   methods: {
     async test() {
       try {
-        const response = await axios.get('/api/profile/self')
+        const response = await http().get('/api/profile/self')
         console.log('test response data = ', response.data)
         alert('Ok, data in console')
       }

@@ -36,8 +36,12 @@ app.use((req, res, next) => {
             req.headers.authorization.split(' ')[1],
             tokenKey,
             (err, payload) => {
-                if (err) next()
+                if (err) {
+                    console.log('verify jwt error = ', err)
+                    next()
+                }
                 else if (payload) {
+                    console.log('verify jwt success = ', payload)
                     const user = authConnector.findUserByLogin(payload.login)
                     if(user) {
                         req.user = user
@@ -58,6 +62,7 @@ app.get('/', (req, res) => {
 
 app.post('/auth', (req, res) => {
     const {login, password} = req.body
+    console.log(`login = ${login}, password = ${password}`)
 
     try {
         const account = authConnector.login(login, password)

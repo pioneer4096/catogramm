@@ -24,10 +24,12 @@ export default {
         resetAuthData(state) {
             state.user = null
             state.token = null
+            localStorage.removeItem('token')
         },
         setAuthData(state, {user, token}) {
             state.user = user
             state.token = token
+            localStorage.setItem('token', token)
         }
     },
     getters: {
