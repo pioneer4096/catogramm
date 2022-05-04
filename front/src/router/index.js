@@ -20,7 +20,14 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("../views/IndexPage.vue"),
+        component: () => import("../views/MainPage.vue"),
+        meta: {
+          authRequired: true,
+        },
+      },
+      {
+        path: "id:id",
+        component: () => import("../views/OtherPage.vue"),
         meta: {
           authRequired: true,
         },
