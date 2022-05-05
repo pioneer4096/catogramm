@@ -2,8 +2,8 @@ import {login} from '@/api/auth.api'
 
 export default {
     state: {
-        user: null,
-        token: null
+        user: localStorage.getItem('user') || null,
+        token: localStorage.getItem('token') || null,
     },
     actions: {
         async login({ dispatch, commit }, data) {

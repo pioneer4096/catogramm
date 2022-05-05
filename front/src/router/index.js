@@ -32,6 +32,13 @@ const routes = [
           authRequired: true,
         },
       },
+      {
+        path: "options",
+        component: () => import("../views/MyOptionsPage.vue"),
+        meta: {
+          authRequired: true,
+        },
+      },
     ],
   },
 ];

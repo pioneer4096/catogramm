@@ -32,8 +32,8 @@
             if(!isNaN(this.userId)) {
                 this.loading = true
                 try {
-                    const response = await http().get(`/profile/get/${this.userId}`)
-                    this.user = response?.data?.user || null
+                    const response = await http().get(`/api/profile/get/${this.userId}`)
+                    this.user = response?.data || null
                 }
                 catch (e) {
                     this.user = null
