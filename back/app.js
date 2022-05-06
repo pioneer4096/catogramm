@@ -3,7 +3,6 @@ const express = require('express')
 const AuthConnector = require('./utils/connectors/auth.connector.js')
 const ProfilesConnector = require('./utils/connectors/profiles.connector.js')
 const ContentConnector = require('./utils/connectors/content.connector.js')
-const FriendsConnector = require('./utils/connectors/friends.connector.js')
 const DataBase = require('./utils/db/DataBase.js')
 const jwt = require('jsonwebtoken')
 
@@ -14,7 +13,7 @@ const dataBase = new DataBase()
 const authConnector = new AuthConnector(dataBase)
 const profilesConnector = new ProfilesConnector(dataBase)
 const contentConnector = new ContentConnector(dataBase)
-const friendsConnector = new FriendsConnector(dataBase)
+// const friendsConnector = new FriendsConnector(dataBase)
 const tokenKey = '2a6c-4d5e-6f7g-8k9i'
 
 const parseId = (paramId) => {
