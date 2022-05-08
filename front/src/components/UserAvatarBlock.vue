@@ -1,8 +1,9 @@
 <template>
   <q-card class="my-card">
-    <div class="avatar-img-wrapper">
-      <img src="https://cdn.quasar.dev/img/mountains.jpg" />
+    <div v-if="link" class="avatar-img-wrapper">
+      <img :src="link" />
     </div>
+    <div v-else>Фото не загружено</div>
 
     <user-avatar-actions />
   </q-card>
@@ -12,6 +13,11 @@
 import UserAvatarActions from "@/components/UserAvatarActions";
 export default {
   name: "UserAvatarBlock",
+  props: {
+    link: {
+      type: String,
+    },
+  },
   components: {
     UserAvatarActions,
   },

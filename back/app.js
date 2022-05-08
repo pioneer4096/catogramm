@@ -121,8 +121,9 @@ app.get('/profile/get/:userId', (req, res) => {
 
 app.get('/profile/self', (req, res) => {
     if(req.user) {
+        const profile = profilesConnector.getProfile(req.user.id)
         res.json({
-            user: req.user
+            user: profile   // may be null value
         })
     }
     else {
