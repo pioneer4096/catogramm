@@ -2,7 +2,7 @@
   <q-page class="">
     <div v-if="loading">Загрузка....</div>
     <div v-else-if="user">
-      <user-page :user="user" />
+      <user-page :user="user" :isYourPage="isYourPage" />
     </div>
     <div v-else>Страница не найдена или ещё не создана.</div>
   </q-page>
@@ -19,6 +19,7 @@ export default {
       userId: null,
       user: null,
       loading: false,
+      isYourPage: false,
     };
   },
   components: {
@@ -32,6 +33,7 @@ export default {
       try {
         const response = await http().get(`/api/profile/get/${this.userId}`);
         this.user = response?.data || null;
+        this.isYourPage = Boolean(this.user?.isYourPage);
       } catch (e) {
         this.user = null;
       }

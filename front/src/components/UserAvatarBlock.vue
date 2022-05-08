@@ -5,7 +5,7 @@
     </div>
     <div v-else>Фото не загружено</div>
 
-    <user-avatar-actions />
+    <user-avatar-actions v-if="isYourPage" />
   </q-card>
 </template>
 
@@ -16,6 +16,10 @@ export default {
   props: {
     link: {
       type: String,
+    },
+    isYourPage: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {

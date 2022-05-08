@@ -2,7 +2,7 @@
   <q-page class="">
     <div v-if="loading">Загрузка....</div>
     <div v-else-if="user">
-      <user-page :user="user" />
+      <user-page :user="user" isYourPage />
     </div>
     <div v-else>Страница не найдена или ещё не создана.</div>
   </q-page>

@@ -108,14 +108,14 @@ export default {
       toggleLeftDrawer,
       links1: [{ icon: "home", text: "Моя страница" }],
       links2: [
-        { icon: "folder", text: "Друзья" },
-        { icon: "folder", text: "Мессенджер" },
-        { icon: "local_movies", text: "Лента" },
+        { icon: "people", text: "Друзья" },
+        { icon: "chat", text: "Мессенджер" },
+        { icon: "local_movies", text: "Новости" },
         { icon: "thumb_up_alt", text: "Реакции" },
       ],
       links3: [
         { icon: "settings", text: "Настройки" },
-        { icon: "folder", text: "Выйти" },
+        { icon: "logout", text: "Выйти" },
       ],
     };
   },

@@ -3,14 +3,14 @@
     <div class="user-page">
       <div class="float-left narrow-column-wrapper">
         <div class="narrow-column">
-          <user-avatar-block :link="user.avatarLink" />
+          <user-avatar-block :link="user.avatarLink" :isYourPage="isYourPage" />
         </div>
       </div>
       <div class="float-right wide-column-wrapper">
         <div class="wide-column">
-          <user-info-block :user="user" />
+          <user-info-block :user="user" :isYourPage="isYourPage" />
           <br />
-          <user-feed-block />
+          <user-feed-block :isYourPage="isYourPage" />
         </div>
       </div>
       <div class="clear"></div>
@@ -27,6 +27,10 @@ export default {
   name: "UserPage",
   props: {
     user: Object,
+    isYourPage: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     UserAvatarBlock,
