@@ -7,9 +7,21 @@ const demoUsers = [
         password: md5('admin')
     },
     {
-        login: 'test',
-        password: md5('test')
-    }
+        login: 'alice',
+        password: md5('12345')
+    },
+    {
+        login: 'simba',
+        password: md5('12345')
+    },
+    {
+        login: 'loki',
+        password: md5('12345')
+    },
+    {
+        login: 'charlie',
+        password: md5('12345')
+    },
 ]
 
 class DataBase {

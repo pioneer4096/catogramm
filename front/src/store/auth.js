@@ -12,16 +12,13 @@ export default {
                 commit('setAuthData', response.data);
             }
             catch(e) {
-                commit('resetAuthData')
+                commit('logout')
                 throw e
             }
         }
     },
     mutations: {
-        logout({commit}) {
-            commit('resetAuthData')
-        },
-        resetAuthData(state) {
+        logout(state) {
             state.user = null
             state.token = null
             localStorage.removeItem('token')

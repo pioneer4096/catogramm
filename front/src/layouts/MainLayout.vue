@@ -30,7 +30,7 @@
           </q-btn>
           <q-btn round flat>
             <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <img :src="userAvatarLink" />
             </q-avatar>
             <q-menu>
               <q-list dense style="min-width: 100px">
@@ -110,8 +110,13 @@ export default {
   components: {
     fabYoutube
   },
-  mounted() {
-
+  async mounted() {
+    try {
+      await this.$store.dispatch('getProfile')
+    }
+    catch (e) {
+      alert('Get profiles action failed...')
+    }
   },
   data() {
     return {
@@ -134,14 +139,13 @@ export default {
       this.leftDrawerOpen = !this.leftDrawerOpen;
     },
     logout() {
-      console.log('logout action will be here')
+      this.$store.commit('logout')
+      this.$router.replace('/auth/login')
+      console.warn('successfully logged out')
     }
   },
   computed: {
-    ...mapGetters['userProfile'],
-    userName() {
-      return this.userProfile || 'Иван Иванов'
-    }
+    ...mapGetters(['userAvatarLink', 'userName']),
   }
 };
 </script>
