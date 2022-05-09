@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import authModule from './auth.js'
+import profileModule from './profile.js'
 
 export default createStore({
   state: {},
@@ -7,6 +8,7 @@ export default createStore({
   mutations: {},
   actions: {},
   modules: {
-    authModule
+    authModule,
+    profileModule
   },
 });

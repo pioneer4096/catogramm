@@ -32,7 +32,17 @@
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
-            <q-tooltip>Account</q-tooltip>
+            <q-menu>
+              <q-list dense style="min-width: 100px">
+                <q-item>
+                  <q-item-section>{{userName}}</q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item clickable v-close-popup>
+                  <q-item-section @click="logout">Выйти</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
           </q-btn>
         </div>
       </q-toolbar>
@@ -47,7 +57,7 @@
     >
       <q-scroll-area class="fit">
         <q-list padding>
-          <q-item v-for="link in links1" :key="link.text" v-ripple clickable>
+          <q-item v-for="link in links1" :key="link.text" :to="link.href" exact v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -58,7 +68,7 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links2" :key="link.text" v-ripple clickable>
+          <q-item v-for="link in links2" :key="link.text" :to="link.href" exact v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -69,7 +79,7 @@
 
           <q-separator class="q-mt-md q-mb-xs" />
 
-          <q-item v-for="link in links3" :key="link.text" v-ripple clickable>
+          <q-item v-for="link in links3" :key="link.text" :to="link.href" exact v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -82,43 +92,57 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <div class="user-content">
+        <div class="user-page">
+          <router-view />
+        </div>
+      </div>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import { ref } from "vue";
 import { fabYoutube } from "@quasar/extras/fontawesome-v6";
+import {mapGetters} from "vuex";
 
 export default {
   name: "MyLayout",
-  setup() {
-    const leftDrawerOpen = ref(false);
-    const search = ref("");
+  components: {
+    fabYoutube
+  },
+  mounted() {
 
-    function toggleLeftDrawer() {
-      leftDrawerOpen.value = !leftDrawerOpen.value;
-    }
-
+  },
+  data() {
     return {
-      fabYoutube,
-      leftDrawerOpen,
-      search,
-      toggleLeftDrawer,
-      links1: [{ icon: "home", text: "Моя страница" }],
+      leftDrawerOpen: false,
+      search: "",
+      links1: [{ icon: "home", href: "/", text: "Моя страница" }],
       links2: [
-        { icon: "people", text: "Друзья" },
-        { icon: "chat", text: "Мессенджер" },
-        { icon: "local_movies", text: "Новости" },
-        { icon: "thumb_up_alt", text: "Реакции" },
+        { icon: "people", href: "/friends", text: "Друзья" },
+        { icon: "chat", href: "/messages", text: "Мессенджер" },
+        { icon: "local_movies", href: "/news", text: "Новости" },
+        { icon: "thumb_up_alt", href: "/reactions", text: "Реакции" },
       ],
       links3: [
-        { icon: "settings", text: "Настройки" },
-        { icon: "logout", text: "Выйти" },
+        { icon: "settings", href: "/settings", text: "Настройки" }
       ],
-    };
+    }
   },
+  methods: {
+    toggleLeftDrawer() {
+      this.leftDrawerOpen = !this.leftDrawerOpen;
+    },
+    logout() {
+      console.log('logout action will be here')
+    }
+  },
+  computed: {
+    ...mapGetters['userProfile'],
+    userName() {
+      return this.userProfile || 'Иван Иванов'
+    }
+  }
 };
 </script>
 
@@ -144,4 +168,16 @@ export default {
 
         &:hover
             color: #000
+</style>
+
+<style scoped>
+  .user-content {
+    padding-top: 15px;
+  }
+
+  .user-page {
+    width: 960px;
+    padding: 0 15px;
+    margin: 0 auto;
+  }
 </style>

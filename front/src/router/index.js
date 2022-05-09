@@ -33,8 +33,36 @@ const routes = [
         },
       },
       {
-        path: "options",
-        component: () => import("../views/MyOptionsPage.vue"),
+        path: "settings",
+        component: () => import("../views/SettingsPage.vue"),
+        meta: {
+          authRequired: true,
+        },
+      },
+      {
+        path: "friends",
+        component: () => import("../views/FriendsPage.vue"),
+        meta: {
+          authRequired: true,
+        },
+      },
+      {
+        path: "messages",
+        component: () => import("../views/MessagesPage.vue"),
+        meta: {
+          authRequired: true,
+        },
+      },
+      {
+        path: "news",
+        component: () => import("../views/NewsPage.vue"),
+        meta: {
+          authRequired: true,
+        },
+      },
+      {
+        path: "reactions",
+        component: () => import("../views/ReactionsPage.vue"),
         meta: {
           authRequired: true,
         },

@@ -1,20 +1,18 @@
 <template>
-  <div class="user-content">
-    <div class="user-page">
-      <div class="float-left narrow-column-wrapper">
-        <div class="narrow-column">
-          <user-avatar-block :link="user.avatarLink" :isYourPage="isYourPage" />
-        </div>
+  <div>
+    <div class="float-left narrow-column-wrapper">
+      <div class="narrow-column">
+        <user-avatar-block :link="user.avatarLink" :isYourPage="isYourPage" />
       </div>
-      <div class="float-right wide-column-wrapper">
-        <div class="wide-column">
-          <user-info-block :user="user" :isYourPage="isYourPage" />
-          <br />
-          <user-feed-block :isYourPage="isYourPage" />
-        </div>
-      </div>
-      <div class="clear"></div>
     </div>
+    <div class="float-right wide-column-wrapper">
+      <div class="wide-column">
+        <user-info-block :user="user" :isYourPage="isYourPage" />
+        <br />
+        <user-feed-block :isYourPage="isYourPage" />
+      </div>
+    </div>
+    <div class="clear"></div>
   </div>
 </template>
 
@@ -41,16 +39,6 @@ export default {
 </script>
 
 <style lang="scss">
-.user-content {
-  padding-top: 15px;
-}
-
-.user-page {
-  width: 960px;
-  padding: 0 15px;
-  margin: 0 auto;
-}
-
 .narrow-column-wrapper {
   width: 300px;
 
