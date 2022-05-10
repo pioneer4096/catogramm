@@ -3,8 +3,8 @@ class ContentConnector {
         this.db = db
     }
 
-    get() {
-        return []
+    getFeed(ownerId) {
+        return this.db.getPostsById(ownerId)
     }
 
     create(data) {

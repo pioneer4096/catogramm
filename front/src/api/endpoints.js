@@ -5,6 +5,7 @@ const endpoints = {
   updateProfile: "/profile/update",
   friendStatus: "/friends/get/status",
   friendAdd: "/friends/add",
+  getFeed: "/feed/get"
 };
 
 function endpointsWrapper() {

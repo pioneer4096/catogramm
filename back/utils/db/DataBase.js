@@ -1,6 +1,7 @@
 const AutoIncrementUniqueCollection = require('../collections/AutoIncrementUniqueCollection.js')
 const demoUsers = require('../../data/demo.users.js')
 const demoProfiles = require('../../data/demo.profiles.js')
+const demoContent = require('../../data/demo.content.js')
 
 const friendsEdgeExample = {
     key: '1-2__2-1',
@@ -25,6 +26,10 @@ class DataBase {
 
         demoProfiles.forEach(profile => {
             this.profiles.push(profile)
+        })
+
+        demoContent.forEach(post => {
+            this.content.push(post)
         })
     }
 
@@ -110,6 +115,10 @@ class DataBase {
         else {
             return null
         }
+    }
+
+    getPostsById(ownerId) {
+        return this.content.filter(content => content.ownerId === ownerId)
     }
 }
 

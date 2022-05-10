@@ -223,15 +223,15 @@ app.post('/profile/update', (req, res) => {
     }
 })
 
-app.get('/content/get/:userId', (req, res) => {
+app.get('/feed/get/:userId', (req, res) => {
     try {
         const userId = parseId(req.params.userId)
-        const data = contentConnector.get(userId)
+        const data = contentConnector.getFeed(userId)
         res.status(200).json({data})
     }
     catch (e) {
         res.status(400).send({
-            message: 'CANT_GET_CONTENT'
+            message: 'CANT_GET_FEED'
         })
     }
 })

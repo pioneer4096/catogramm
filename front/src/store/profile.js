@@ -31,6 +31,7 @@ export default {
   },
   getters: {
     userProfile: (s) => s.profile,
+    selfId: (s) => s.profile?.id || -1,
     userName: (s) => s.profile?.name || "Иван Иванов",
     userAvatarLink: (s) => s.profile?.avatarLink || DEFAULT_USER_AVATAR_LINK,
   },

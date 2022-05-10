@@ -42,6 +42,12 @@ export default {
     } catch (e) {
       console.warn("Cant get friends status ", e);
     }
+
+    try {
+      this.$store.dispatch("getFeed", this.userId);
+    } catch (e) {
+      console.warn("Cant get feed ", e);
+    }
   },
   computed: {
     ...mapGetters(["pageOwnerProfile", "isYourPage"]),
