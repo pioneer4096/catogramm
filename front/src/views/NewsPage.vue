@@ -1,12 +1,17 @@
 <template>
     <q-page>
-        <h2>News page will be here</h2>
+        <demo-page text="News page will be here" />
     </q-page>
 </template>
 
 <script>
+    import DemoPage from "@/components/DemoPage";
+
     export default {
-        name: "NewsPage"
+        name: "NewsPage",
+        components: {
+            DemoPage
+        }
     }
 </script>
 

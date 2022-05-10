@@ -1,13 +1,17 @@
 <template>
     <q-page>
-        <h2>Settings page</h2>
-
+        <demo-page text="Settings page will be here soon" />
     </q-page>
 </template>
 
 <script>
+    import DemoPage from "@/components/DemoPage";
+
     export default {
-        name: "SettingsPage"
+        name: "SettingsPage",
+        components: {
+            DemoPage
+        }
     }
 </script>
 

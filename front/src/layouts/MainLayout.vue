@@ -111,7 +111,7 @@
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
+              <q-item-label>{{ link.text }} <q-badge v-if="link.demo" outline color="primary" label="demo" class="q-ml-xs" /></q-item-label>
             </q-item-section>
           </q-item>
 
@@ -129,7 +129,7 @@
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
+              <q-item-label>{{ link.text }} <q-badge v-if="link.demo" outline color="primary" label="demo" class="q-ml-xs" /></q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -173,12 +173,12 @@ export default {
       search: "",
       links1: [{ icon: "home", href: "/", text: "Моя страница" }],
       links2: [
-        { icon: "people", href: "/friends", text: "Друзья" },
-        { icon: "chat", href: "/messages", text: "Мессенджер" },
-        { icon: "local_movies", href: "/news", text: "Новости" },
-        { icon: "thumb_up_alt", href: "/reactions", text: "Реакции" },
+        { icon: "people", href: "/friends", text: "Друзья", demo: true },
+        { icon: "chat", href: "/messages", text: "Мессенджер", demo: true },
+        { icon: "local_movies", href: "/news", text: "Новости", demo: true },
+        { icon: "thumb_up_alt", href: "/reactions", text: "Реакции", demo: true },
       ],
-      links3: [{ icon: "settings", href: "/settings", text: "Настройки" }],
+      links3: [{ icon: "settings", href: "/settings", text: "Настройки", demo: true }],
     };
   },
   methods: {

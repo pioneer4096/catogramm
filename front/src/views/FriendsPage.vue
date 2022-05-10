@@ -1,12 +1,17 @@
 <template>
     <q-page>
-        <h2>Friends page will be here</h2>
+        <demo-page text="Friends page will be here" />
     </q-page>
 </template>
 
 <script>
+    import DemoPage from "@/components/DemoPage";
+
     export default {
-        name: "FriendsPage"
+        name: "FriendsPage",
+        components: {
+            DemoPage
+        }
     }
 </script>
 
