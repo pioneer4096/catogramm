@@ -32,9 +32,24 @@ export default {
       type: Boolean,
       default: false,
     },
+    user: Object
   },
   methods: {
-    addToFriends() {},
+    async addToFriends() {
+      if(this.user?.id) {
+        try {
+          await this.$store.dispatch('addToFriend', this.user.id)
+        }
+        catch (e) {
+          console.log('addToFriend error ', e)
+          alert('Error')
+        }
+      }
+      else {
+        console.log('Cant add friend without ID ', this.user)
+        alert('Error')
+      }
+    },
   },
   computed: {
     ...mapGetters(["friendStatus"]),

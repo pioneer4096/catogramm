@@ -15,10 +15,10 @@ export default {
         throw e;
       }
     },
-    async addToFriend(friendId) {
+    async addToFriend({commit, dispatch}, friendId) {
       try {
         const response = await addFriend(friendId);
-        // ?
+        await dispatch('getFriendStatus', friendId)
       } catch (e) {
         console.log(e)
         throw e;

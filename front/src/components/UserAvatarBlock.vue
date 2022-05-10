@@ -5,7 +5,7 @@
     </div>
     <div v-else>Фото не загружено</div>
 
-    <user-avatar-actions :isYourPage="isYourPage" />
+    <user-avatar-actions :isYourPage="isYourPage" :user="user"/>
   </q-card>
 </template>
 
@@ -24,7 +24,8 @@ export default {
     friendsStatus: {
         type: Number,
         default: 0
-    }
+    },
+    user: Object
   },
   components: {
     UserAvatarActions,

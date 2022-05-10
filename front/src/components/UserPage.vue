@@ -2,7 +2,7 @@
   <div>
     <div class="float-left narrow-column-wrapper">
       <div class="narrow-column">
-        <user-avatar-block :link="user.avatarLink" :isYourPage="isYourPage" />
+        <user-avatar-block :link="user.avatarLink" :isYourPage="isYourPage" :user="user" />
       </div>
     </div>
     <div class="float-right wide-column-wrapper">

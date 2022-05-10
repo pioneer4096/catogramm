@@ -277,7 +277,7 @@ app.get('/content/like/:documentId', (req, res) => {
 /**
  * need auth
  * **/
-app.post('/friends/add/:userId', (req, res) => {
+app.get('/friends/add/:userId', (req, res) => {
     if(req.user) {
         try {
             const userId = parseId(req.params.userId)
