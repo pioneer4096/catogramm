@@ -7,7 +7,18 @@ const DataBase = require('./utils/db/DataBase.js')
 const jwt = require('jsonwebtoken')
 
 const app = express()
+const http = require('http').createServer(app)
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "http://localhost:8080",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["socket-purpose-header"],
+        credentials: true
+    }
+})
+const host = 'localhost'
 const port = 3000
+let socketClients = []
 
 const dataBase = new DataBase()
 const authConnector = new AuthConnector(dataBase)
@@ -25,6 +36,22 @@ const parseId = (paramId) => {
         return id
     }
 }
+
+io.on('connection', (socket) => {
+    console.log(`Client with id ${socket.id} connected`)
+    socketClients.push(socket.id)
+
+    socket.emit('message', "I'm server")
+
+    socket.on('message', (message) =>
+        console.log('Message: ', message)
+    )
+
+    socket.on('disconnect', () => {
+        socketClients.splice(socketClients.indexOf(socket.id), 1)
+        console.log(`Client with id ${socket.id} disconnected`)
+    })
+})
 
 
 app.use(express.json())
@@ -230,6 +257,6 @@ app.get('/friends/add/:userId', (req, res) => {
     }
 })
 
-app.listen(port, () => {
+http.listen(port, () => {
     console.log(`App started at port ${port}`)
 })

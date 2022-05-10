@@ -18,6 +18,7 @@
             round
             dense
             flat
+            @click="sendSocket"
             color="grey-8"
             icon="message"
             v-if="$q.screen.gt.sm"
@@ -25,8 +26,31 @@
             <q-tooltip>Messages</q-tooltip>
           </q-btn>
           <q-btn round dense flat color="grey-8" icon="notifications">
-            <q-badge color="red" text-color="white" floating> 2</q-badge>
-            <q-tooltip>Notifications</q-tooltip>
+            <q-badge
+              v-if="notificationMessagesUnreadLength"
+              color="red"
+              text-color="white"
+              floating
+            >
+              {{ notificationMessagesUnreadLength }}</q-badge
+            >
+            <!--            <q-tooltip>Notifications</q-tooltip>-->
+            <q-menu v-if="notificationMessagesUnreadLength">
+              <q-list dense style="min-width: 100px">
+                <template
+                  v-for="notification in notificationMessagesUnreadMax"
+                  :key="`notification_${notification.id}`"
+                >
+                  <q-item
+                    @click="readNotification(notification.id)"
+                    clickable
+                    v-close-popup
+                  >
+                    <q-item-section>{{ notification.text }}</q-item-section>
+                  </q-item>
+                </template>
+              </q-list>
+            </q-menu>
           </q-btn>
           <q-btn round flat>
             <q-avatar size="26px">
@@ -35,7 +59,7 @@
             <q-menu>
               <q-list dense style="min-width: 100px">
                 <q-item>
-                  <q-item-section>{{userName}}</q-item-section>
+                  <q-item-section>{{ userName }}</q-item-section>
                 </q-item>
                 <q-separator />
                 <q-item clickable v-close-popup>
@@ -57,7 +81,14 @@
     >
       <q-scroll-area class="fit">
         <q-list padding>
-          <q-item v-for="link in links1" :key="link.text" :to="link.href" exact v-ripple clickable>
+          <q-item
+            v-for="link in links1"
+            :key="link.text"
+            :to="link.href"
+            exact
+            v-ripple
+            clickable
+          >
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -68,7 +99,14 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links2" :key="link.text" :to="link.href" exact v-ripple clickable>
+          <q-item
+            v-for="link in links2"
+            :key="link.text"
+            :to="link.href"
+            exact
+            v-ripple
+            clickable
+          >
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -79,7 +117,14 @@
 
           <q-separator class="q-mt-md q-mb-xs" />
 
-          <q-item v-for="link in links3" :key="link.text" :to="link.href" exact v-ripple clickable>
+          <q-item
+            v-for="link in links3"
+            :key="link.text"
+            :to="link.href"
+            exact
+            v-ripple
+            clickable
+          >
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -103,20 +148,28 @@
 
 <script>
 import { fabYoutube } from "@quasar/extras/fontawesome-v6";
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
+import { io } from "socket.io-client";
+const socket = io("ws://localhost:3000", {
+  withCredentials: true,
+  extraHeaders: {
+    "socket-purpose-header": "abcd-dece-apza-olms-sakl",
+  },
+});
 
 export default {
   name: "MyLayout",
   components: {
-    fabYoutube
+    fabYoutube,
   },
   async mounted() {
     try {
-      await this.$store.dispatch('getProfile')
+      await this.$store.dispatch("getProfile");
+    } catch (e) {
+      alert("Get profiles action failed...");
     }
-    catch (e) {
-      alert('Get profiles action failed...')
-    }
+
+    socket.on("message", this.handleSocketConnection);
   },
   data() {
     return {
@@ -129,24 +182,39 @@ export default {
         { icon: "local_movies", href: "/news", text: "Новости" },
         { icon: "thumb_up_alt", href: "/reactions", text: "Реакции" },
       ],
-      links3: [
-        { icon: "settings", href: "/settings", text: "Настройки" }
-      ],
-    }
+      links3: [{ icon: "settings", href: "/settings", text: "Настройки" }],
+    };
   },
   methods: {
+    sendSocket() {
+      socket.emit("message", "Hi from client side!!!");
+    },
     toggleLeftDrawer() {
       this.leftDrawerOpen = !this.leftDrawerOpen;
     },
     logout() {
-      this.$store.commit('logout')
-      this.$router.replace('/auth/login')
-      console.warn('successfully logged out')
-    }
+      this.$store.commit("logout");
+      this.$router.replace("/auth/login");
+      console.warn("successfully logged out");
+    },
+    readNotification(id) {
+      this.$store.commit("readNotification", id);
+    },
+    handleSocketConnection(message) {
+      this.$store.commit("addNotification", message);
+    },
   },
   computed: {
-    ...mapGetters(['userAvatarLink', 'userName']),
-  }
+    ...mapGetters([
+      "userAvatarLink",
+      "userName",
+      "notificationMessagesUnreadMax",
+      "notificationMessagesUnreadLength",
+    ]),
+  },
+  beforeUnmount() {
+    socket.off("message", this.handleSocketConnection);
+  },
 };
 </script>
 
@@ -175,13 +243,13 @@ export default {
 </style>
 
 <style scoped>
-  .user-content {
-    padding-top: 15px;
-  }
+.user-content {
+  padding-top: 15px;
+}
 
-  .user-page {
-    width: 960px;
-    padding: 0 15px;
-    margin: 0 auto;
-  }
+.user-page {
+  width: 960px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
 </style>
