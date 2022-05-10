@@ -1,28 +1,6 @@
-const md5 = require('md5');
 const AutoIncrementUniqueCollection = require('../collections/AutoIncrementUniqueCollection.js')
-
-const demoUsers = [
-    {
-        login: 'admin',
-        password: md5('admin')
-    },
-    {
-        login: 'alice',
-        password: md5('12345')
-    },
-    {
-        login: 'simba',
-        password: md5('12345')
-    },
-    {
-        login: 'loki',
-        password: md5('12345')
-    },
-    {
-        login: 'charlie',
-        password: md5('12345')
-    },
-]
+const demoUsers = require('../../data/demo.users.js')
+const demoProfiles = require('../../data/demo.profiles.js')
 
 class DataBase {
     constructor() {
@@ -34,6 +12,10 @@ class DataBase {
 
         demoUsers.forEach(user => {
             this.users.push(user.login, user)
+        })
+
+        demoProfiles.forEach(profile => {
+            this.profiles.push(profile)
         })
     }
 
@@ -47,6 +29,27 @@ class DataBase {
 
     findAccountById(id) {
         return this.users.findById(id)
+    }
+
+    findProfileById(id) {
+        return this.profiles.find(profile => profile.id === id) || null
+    }
+
+    updateProfile(id, data) {
+        console.log(`DB update profile id ${id} and data ${JSON.stringify(data)}`)
+        const profile = this.findProfileById(id)
+        if(profile) {
+            Object.keys(data).forEach(key => {
+                if(profile.hasOwnProperty(key)) {
+                    profile[key] = data[key]
+                }
+            })
+
+            return profile
+        }
+        else {
+            throw new Error(`Profile with id = ${id} wasn't found!`)
+        }
     }
 }
 

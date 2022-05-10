@@ -13,7 +13,7 @@ class ProfilesConnector {
     }
 
     getProfile(userId) {
-        const rawProfile = demoProfiles.find(profile => profile.id === userId)
+        const rawProfile = this.db.findProfileById(userId)
         if(rawProfile) {
             const profile = {}
             const personal = []
@@ -37,6 +37,10 @@ class ProfilesConnector {
         else {
             return null
         }
+    }
+
+    updateProfile(id, profile) {
+       return this.db.updateProfile(id, profile)
     }
 
     setInfo(data) {

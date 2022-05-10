@@ -163,7 +163,7 @@ app.get('/profile/self', (req, res) => {
 /**
  * need auth
  * **/
-app.get('/profile/setAvatar', (req, res) => {
+app.post('/profile/setAvatar', (req, res) => {
     try {
         profilesConnector.setAvatar({data: ''})
         res.status(200)
@@ -178,7 +178,7 @@ app.get('/profile/setAvatar', (req, res) => {
 /**
  * need auth
  * **/
-app.get('/profile/setInfo', (req, res) => {
+app.post('/profile/setInfo', (req, res) => {
     try {
         profilesConnector.setInfo({data: ''})
         res.status(200)
@@ -186,6 +186,38 @@ app.get('/profile/setInfo', (req, res) => {
     catch (e) {
         res.status(400).send({
             message: 'CANT_SAVE_INFO'
+        })
+    }
+})
+
+/**
+ * need auth
+ * **/
+app.post('/profile/update', (req, res) => {
+    if(req.user) {
+        console.log('req body = ', req.body)
+        const {profile} = req.body
+        if(!profile) {
+            return res.status(400).send({
+                message: 'No profile data provided'
+            })
+        }
+
+        try {
+            const updatedProfile = profilesConnector.updateProfile(req.user.id, profile)
+            return res.status(200).json(updatedProfile)
+        }
+        catch(e) {
+            const error = e.message
+            console.log(error)
+            return res.status(500).send({
+                message: `Error: ${error}`
+            })
+        }
+    }
+    else {
+        res.status(401).send({
+            message: 'Not authorized yet'
         })
     }
 })

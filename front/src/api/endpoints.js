@@ -1,7 +1,8 @@
 const endpoints = {
   login: "/auth",
   register: "/register",
-  getProfile: '/profile/self'
+  getProfile: "/profile/self",
+  updateProfile: "/profile/update",
 };
 
 function endpointsWrapper() {

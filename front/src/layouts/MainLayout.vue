@@ -147,7 +147,6 @@
 </template>
 
 <script>
-import { fabYoutube } from "@quasar/extras/fontawesome-v6";
 import { mapGetters } from "vuex";
 import { io } from "socket.io-client";
 const socket = io("ws://localhost:3000", {
@@ -159,9 +158,6 @@ const socket = io("ws://localhost:3000", {
 
 export default {
   name: "MyLayout",
-  components: {
-    fabYoutube,
-  },
   async mounted() {
     try {
       await this.$store.dispatch("getProfile");
