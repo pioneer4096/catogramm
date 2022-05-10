@@ -2,6 +2,15 @@ const AutoIncrementUniqueCollection = require('../collections/AutoIncrementUniqu
 const demoUsers = require('../../data/demo.users.js')
 const demoProfiles = require('../../data/demo.profiles.js')
 
+const friendsEdgeExample = {
+    key: '1-2__2-1',
+    from: 1,    // user id who send request
+    to: 2,  // user id whom send request
+    created: '2022-05-01 19:53:14',
+    confirmed: '2022-05-05 08:51:33',
+    status: 3   //
+}
+
 class DataBase {
     constructor() {
         this.users = new AutoIncrementUniqueCollection()
@@ -49,6 +58,57 @@ class DataBase {
         }
         else {
             throw new Error(`Profile with id = ${id} wasn't found!`)
+        }
+    }
+
+    addFriend(edge) {
+        switch (edge.status) {
+            case 0: // delete edge
+
+
+            case 1: // add friend request
+                const key = `${edge.from}-${edge.to}__${edge.to}-${edge.from}`
+                const newEdge = {
+                    ...edge,
+                    key
+                }
+                this.friends.push(newEdge)
+                return newEdge
+
+            case 2: // apply friend
+
+        }
+    }
+
+    updateFriendship(edge) {
+        const index = this.friends.findIndex(e => e.key === edge.key)
+        if(index !== -1) {
+            this.friends[index] = {
+                ...edge
+            }
+            return edge
+        }
+        return null
+    }
+
+    addNewFriendship(edge) {
+        const key = `${edge.from}-${edge.to}__${edge.to}-${edge.from}`
+        const newEdge = {
+            ...edge,
+            key
+        }
+        this.friends.push(newEdge)
+        return newEdge
+    }
+
+    getFriendEdge(id1, id2) {
+        const subkey = `${id1}-${id2}`
+        const edge = this.friends.find(e => e.key.includes(subkey))
+        if(edge) {
+            return edge
+        }
+        else {
+            return null
         }
     }
 }

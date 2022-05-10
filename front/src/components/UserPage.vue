@@ -25,10 +25,10 @@ export default {
   name: "UserPage",
   props: {
     user: Object,
-    isYourPage: {
-      type: Boolean,
-      default: false,
-    },
+      isYourPage: {
+        type: Boolean,
+        default: false
+      }
   },
   components: {
     UserAvatarBlock,

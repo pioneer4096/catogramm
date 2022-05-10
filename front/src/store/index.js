@@ -2,6 +2,8 @@ import { createStore } from "vuex";
 import authModule from './auth.js'
 import profileModule from './profile.js'
 import notificationsModule from './notifications.js'
+import friendsModule from './friends.js'
+import pageMofule from './page.js'
 
 export default createStore({
   state: {},
@@ -12,5 +14,7 @@ export default createStore({
     authModule,
     profileModule,
     notificationsModule,
+    friendsModule,
+    pageMofule,
   },
 });

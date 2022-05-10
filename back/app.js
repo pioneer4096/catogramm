@@ -3,6 +3,7 @@ const express = require('express')
 const AuthConnector = require('./utils/connectors/auth.connector.js')
 const ProfilesConnector = require('./utils/connectors/profiles.connector.js')
 const ContentConnector = require('./utils/connectors/content.connector.js')
+const FriendsConnector = require('./utils/connectors/friends.connector.js')
 const DataBase = require('./utils/db/DataBase.js')
 const jwt = require('jsonwebtoken')
 
@@ -24,11 +25,11 @@ const dataBase = new DataBase()
 const authConnector = new AuthConnector(dataBase)
 const profilesConnector = new ProfilesConnector(dataBase)
 const contentConnector = new ContentConnector(dataBase)
-// const friendsConnector = new FriendsConnector(dataBase)
+const friendsConnector = new FriendsConnector(dataBase)
 const tokenKey = '2a6c-4d5e-6f7g-8k9i'
 
 const parseId = (paramId) => {
-    const id = +paramId
+    const id = (typeof paramId === 'number') ? paramId : +paramId
     if(isNaN(id)) {
         throw new Error(`Incorrect user id "${id}"`)
     }
@@ -276,15 +277,47 @@ app.get('/content/like/:documentId', (req, res) => {
 /**
  * need auth
  * **/
-app.get('/friends/add/:userId', (req, res) => {
-    try {
-        const userId = parseId(req.params.userId)
-        friendsConnector.add(userId)
-        res.status(200)
+app.post('/friends/add/:userId', (req, res) => {
+    if(req.user) {
+        try {
+            const userId = parseId(req.params.userId)
+            const edge = friendsConnector.addFriend(req.user.id, userId)
+            res.status(200).json({
+                edge
+            })
+        }
+        catch (e) {
+            res.status(400).send({
+                message: 'CANT_ADD_FRIEND'
+            })
+        }
     }
-    catch (e) {
-        res.status(400).send({
-            message: 'CANT_ADD_FRIEND'
+    else {
+        res.status(401).send({
+            message: 'Not authorized yet'
+        })
+    }
+})
+
+app.post('/friends/get/status', (req, res) => {
+    if(req.user) {
+        console.log(req.body)
+        const friendId = parseId(req.body.friendId)
+        try {
+            const statusResponse = friendsConnector.getStatus(req.user.id, friendId)
+            res.status(200).json({
+                status: statusResponse
+            })
+        }
+        catch (e) {
+            res.status(400).send({
+                message: 'CANT_GET_FRIEND_STATUS'
+            })
+        }
+    }
+    else {
+        res.status(401).send({
+            message: 'Not authorized yet'
         })
     }
 })

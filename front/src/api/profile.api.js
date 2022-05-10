@@ -9,3 +9,5 @@ export const updateProfileStatus = (status) =>
           status
       }
   });
+
+export const getProfileById = (userId) => http().get(`/api/profile/get/${userId}`)

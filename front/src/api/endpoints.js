@@ -3,6 +3,8 @@ const endpoints = {
   register: "/register",
   getProfile: "/profile/self",
   updateProfile: "/profile/update",
+  friendStatus: "/friends/get/status",
+  friendAdd: "/friends/add",
 };
 
 function endpointsWrapper() {
